@@ -37,4 +37,4 @@ jobs:
       run: |
         docker build -t ${{ env.DOCKER_IMAGE_NAME }} .
         docker tag ${{ env.DOCKER_IMAGE_NAME }} ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$(git rev-parse --short HEAD)
-        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:latest
+        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$(git rev-parse --short HEAD)
