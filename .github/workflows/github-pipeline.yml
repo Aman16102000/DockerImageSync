@@ -12,7 +12,7 @@ env:
   AWS_REGION: ap-south-1
   ECR_REPO: imagesync
   DOCKER_IMAGE_NAME: initial_image
-
+  COMMIT_HASH: $(git rev-parse --short HEAD)
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -36,13 +36,13 @@ jobs:
     - name: Build and Push Docker Image
       run: |
         docker build -t ${{ env.DOCKER_IMAGE_NAME }} .
-        docker tag ${{ env.DOCKER_IMAGE_NAME }} ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$(git rev-parse --short HEAD)
-        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$(git rev-parse --short HEAD)
+        docker tag ${{ env.DOCKER_IMAGE_NAME }} ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.COMMIT_HASH }}
+        docker push ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.COMMIT_HASH }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$(git rev-parse --short HEAD)
+        image-ref: ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.COMMIT_HASH }}
         format: 'sarif'
         output: 'trivy-results.sarif'
       env:
