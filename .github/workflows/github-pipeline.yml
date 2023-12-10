@@ -23,6 +23,8 @@ jobs:
 
     - name: Cache Python dependencies
       uses: actions/cache@v2
+      run: |
+        echo "Root Directory: $(pwd)"
       with:
         path: |
           ~/.cache/pip
