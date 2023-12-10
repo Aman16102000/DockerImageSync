@@ -13,7 +13,7 @@ env:
   ECR_REPO: imagesync
   DOCKER_IMAGE_NAME: initial_image
   COMMIT_HASH: ${{ github.sha }}
-  COMMIT_MESSAGE: $(git log --format=%B -n 1 ${{ github.sha }})
+  COMMIT_MESSAGE: $(git log --format=%B -n 1 ${{ github.sha }}) echo "Commit Message $COMMIT_MESSAGE"
 
 jobs:
   build-and-push:
