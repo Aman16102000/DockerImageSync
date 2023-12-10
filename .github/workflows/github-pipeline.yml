@@ -62,12 +62,12 @@ jobs:
       if: ${{ failure() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }}"
+            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }} ${{github.run_number	}} ${{github.run_id	}} "
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Notify on Success
       if: ${{ success() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }}"
+            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }} "
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
