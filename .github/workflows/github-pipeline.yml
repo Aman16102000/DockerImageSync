@@ -56,3 +56,17 @@ jobs:
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: 'trivy-results.sarif'
+
+    - name: Notify on Failure
+      if: ${{ failure() }}
+      run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }} (${GITHUB_RUN_ID})"
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Notify on Success
+      if: ${{ success() }}
+      run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }} (${GITHUB_RUN_ID})"
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
