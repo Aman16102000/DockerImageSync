@@ -12,7 +12,7 @@ env:
   AWS_REGION: ap-south-1
   ECR_REPO: imagesync
   DOCKER_IMAGE_NAME: initial_image
-  COMMIT_HASH: $(git rev-parse --short HEAD)
+  COMMIT_HASH: $(git rev-parse HEAD)
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
