@@ -13,7 +13,6 @@ env:
   ECR_REPO: imagesync
   DOCKER_IMAGE_NAME: initial_image
   COMMIT_HASH: ${{ github.sha }}
-  SHORT_HASH: ${{ github.sha:0,5 }} 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -21,6 +20,16 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+    
+    - name: Set the commit hash
+      run: echo "::set-env name=COMMIT_HASH::${{ github.sha }}"
+
+    - name: Extract first 5 characters
+      id: extract
+      run: echo "SHORT_HASH=${COMMIT_HASH:0:5}" >> $GITHUB_ENV
+
+    - name: Show the short hash
+      run: echo "Short hash: ${{ env.SHORT_HASH }}"
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
