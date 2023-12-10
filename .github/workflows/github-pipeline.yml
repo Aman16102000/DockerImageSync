@@ -20,16 +20,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    
-    - name: Set the commit hash
-      run: echo "::set-env name=COMMIT_HASH::${{ github.sha }}"
-
-    - name: Extract first 5 characters
-      id: extract
-      run: echo "SHORT_HASH=${COMMIT_HASH:0:5}" >> $GITHUB_ENV
-
-    - name: Show the short hash
-      run: echo "Short hash, ${{ env.SHORT_HASH }}"
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -52,7 +42,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: '${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ github.sha }}'
+        image-ref: '${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.COMMIT_HASH }}'
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-results.sarif'
@@ -71,12 +61,12 @@ jobs:
       if: ${{ failure() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }}, Commit Hash: ${{ env.SHORT_HASH }}"
+            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }}, Commit Hash: ${{ env.COMMIT_HASH }}"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Notify on Success
       if: ${{ success() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }}, Commit Hash: ${{ env.SHORT_HASH }}"
+            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }}, Commit Hash: ${{ env.COMMIT_HASH }}"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
