@@ -13,6 +13,8 @@ env:
   ECR_REPO: imagesync
   DOCKER_IMAGE_NAME: initial_image
   COMMIT_HASH: ${{ github.sha }}
+  COMMIT_MESSAGE: $(git log --format=%B -n 1 ${{ github.sha }})
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -61,12 +63,12 @@ jobs:
       if: ${{ failure() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }} (${GITHUB_RUN_ID})"
+            "text": ":x: GitHub Actions Workflow Failed - ${{ github.repository }} Commit message: ${{ env.COMMIT_MESSAGE }}"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Notify on Success
       if: ${{ success() }}
       run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }} (${GITHUB_RUN_ID})"
+            "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }} Commit message: ${{ env.COMMIT_MESSAGE }}"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
