@@ -322,7 +322,7 @@ Now open the default Public IPv4 DNS of the AWS web server. you can find these d
 
 and make sure only use http when opening this Public IPv4 DNS.
 
-![Hello_world](https://github.com/Aman16102000/DockerImageSync/assets/57329099/bee0aad6-9ef8-4a59-a3c8-8f5b1116eb13)
+![Hello_world_2](https://github.com/Aman16102000/DockerImageSync/assets/57329099/24da3f4a-f33e-41f8-b1ec-cbfdd977fe09)
 
 
 ## How to access the hello world app from the local
