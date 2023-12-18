@@ -3,8 +3,8 @@
 
 This repository contains a simple Hello World application, Dockerized for easy deployment, and configured to automatically build and push Docker images to AWS Elastic Container Registry (ECR) using GitHub Actions. The workflow triggers on code pushes and pull requests, ensuring a seamless integration and deployment process.
 
-use this to access Hello world App
-` http://ec2-52-66-243-144.ap-south-1.compute.amazonaws.com/ `
+Use this to access Hello world App
+` http://flask-app-1423799214.ap-south-1.elb.amazonaws.com `
 
 
 ## Pre-requisite to replicate the setup
