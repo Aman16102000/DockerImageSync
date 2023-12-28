@@ -70,3 +70,12 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data '{
             "text": ":white_check_mark: GitHub Actions Workflow Succeeded - ${{ github.repository }}, Commit Hash: ${{ env.COMMIT_HASH }}"
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
+    
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.HOST_USERNAME }}
+        key: ${{ secrets.PEM_FILE }}
+        port: 22
+        script: ls
