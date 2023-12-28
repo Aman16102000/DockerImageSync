@@ -78,4 +78,4 @@ jobs:
         username: ${{ secrets.HOST_USERNAME }}
         key: ${{ secrets.PEM_FILE }}
         port: 22
-        script: ls
+        script: whoami
