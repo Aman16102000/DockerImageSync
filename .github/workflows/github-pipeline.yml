@@ -79,6 +79,6 @@ jobs:
         key: ${{ secrets.PEM_FILE }}
         port: 22
         script: |
-          running_container_id = $(docker ps --format "{{.ID}}")
+          running_container_id = $(sudo docker ps --format "{{.ID}}")
           sudo docker stop ${running_container_id}
           sudo docker run -p 80:5000 ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:${{ env.COMMIT_HASH }}
